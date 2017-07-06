@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href='bower/fullcalendar/dist/fullcalendar.print.min.css' media='print' />
+
+  <link rel='stylesheet' href='bower/fullcalendar/dist/fullcalendar.css' />
+  <script src='bower/jquery/dist/jquery.min.js'></script>
+  <script src='bower/jquery-ui/jquery-ui.min.js'></script>
+  <link rel='stylesheet' href='bower/jquery-ui/jquery-ui.css' />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='bower/moment/min/moment.min.js'></script>
+  <script src='bower/fullcalendar/dist/fullcalendar.js'></script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#calendar').fullCalendar({
+
+        eventClick: function(event, jsEvent, view) {
+          $('#selectTitle').val(event.title);
+          $('#selectStart').val(moment(event.start).format('YYYY/MM/DD'));
+          $('#selectEnd').val(moment(event.end).subtract(1,'days').format('YYYY/MM/DD'));
+          $('#selectModal').modal('show');
+        },
+
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+
+        navLinks: true, // can click day/week names to navigate views
+        selectable: true,
+        selectHelper: true,
+
+        select: function (start, end) {
+          console.log(start, end);
+
+          $('#myModal').modal('show');
+
+          var title = $('#title').val();
+          console.log(title);
+
+          var eventData;
+          if (title) {
+            eventData = {
+              title: title,
+              start: start,
+              end: end
+            };
+
+            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+            // 여기서 데이터베이스 저장 연동로직을 추가
+            //ajax로 post를 날리고 그 데이터만 서블릿으로 갈 수 있게
+            //풀캘린더 <---> 서블릿 <---> DAO
+          }
+          $('#calendar').fullCalendar('unselect');
+        },
+
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        droppable: true, // this allows things to be dropped onto the calendar
+
+        // events: JSON_parse(json_evnets),
+        events: [{
+            title: 'All Day Event',
+            start: '2017-07-01'
+          },
+          {
+            title: 'All Day Event',
+            start: '2017-07-09'
+          },
+          {
+            title: 'All Day Event',
+            start: '2017-07-05',
+            end: '2017-07-06'
+          }
+        ]
+      });
+
+      $('#btnSave').on('click', function () {
+        $("#myModal").modal('hide');
+        // alert('go to server');
+      });
+
+      $('#btnUpdate').on('click', function () {
+        $("#selectModal").modal('hide');
+        $("#myModal").modal('show');
+        // alert('go to server');
+      });
+
+      $('.datepicker').datepicker({
+        dateFormat: 'yy/mm/dd'
+      });
+
+    });
+
+  </script>
+
+  <style>
+    body {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='calendar'></div>
+  <!-- 일정조회 modal Html -->
+    <div id="selectModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">일정조회</h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label for="title" class="control-label col-xs-2">일정</label>
+                      <div class="col-xs-10">
+                        <input type="text" class="form-control " id="selectTitle" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="selectStart" class="control-label col-xs-2">시작일</label>
+                      <div class="col-xs-10">
+                        <input type="text" class="form-control" id="selectStart" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="selectEnd" class="control-label col-xs-2">종료일</label>
+                      <div class="col-xs-10">
+                        <input type="text" class="form-control" id="selectEnd" readonly>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btnUpdate" type="button" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- 일정등록 Modal HTML -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">일정 등록하기</h4>
+        </div>
+        <div class="modal-body form-horizontal">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="title" class="control-label col-xs-2">일정</label>
+              <div class="col-xs-10">
+                <input type="text" class="form-control " id="title" placeholder="Title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="startDate" class="control-label col-xs-2">시작일</label>
+              <div class="col-xs-10">
+                <input type="text" class="form-control datepicker" id="startDate"  placeholder="start">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="endDate" class="control-label col-xs-2">종료일</label>
+              <div class="col-xs-10">
+                <input type="text" class="form-control datepicker" id="endDate" placeholder="end">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="btnClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="btnSave" type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
