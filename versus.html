@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link href="./css/jquery-ui.min.css" rel="stylesheet" />
+<link href="./css/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="./css/fullcalendar.min.css" rel="stylesheet" />
+<link href="./css/fullcalendar.print.min.css" rel="stylesheet"
+	media="print" />
+
+<script src="./js/moment.min.js"></script>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery-ui.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/fullcalendar.min.js"></script>
+<title>Home</title>
+<script>
+	$(document).ready(function() {
+	});
+</script>
+<style>
+body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	font-size: 14px;
+}
+
+#calendar {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.datepicker {
+	z-index: 1151 !important;
+}
+
+span span {
+	font-weight: 900;
+	font-size: 120%;
+}
+</style>
+<!-- <link rel="import" href="./modal-show.html"> -->
+<!-- <link rel="import" href="./modal-write.html"> -->
+<!-- <link rel="import" href="./modal-update.html"> -->
+</head>
+<body>
+
+	<div id="calendar"></div>
+
+	<!-- show -->
+	<div id="modalShow" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"
+					style="background: rgba(182, 220, 251, 0.31)">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h2 class="modal-title">
+						<strong>Show</strong>
+					</h2>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-addon"><span>일&nbsp;&nbsp;&nbsp;정</span></span>
+						<input id="showTitle" type="text" class="form-control"
+							style="background: #fff" readonly>
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>시작일</span></span> <input
+							id="showStart" type="text" class="form-control"
+							style="background: #fff" readonly>
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>종료일</span></span> <input
+							id="showEnd" type="text" class="form-control"
+							style="background: #fff" readonly>
+					</div>
+					<br>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="btnUpdate" type="button" class="btn btn-primary"
+						data-dismiss="modal">Update</button>
+					<button id="btnDelete" type="button" class="btn btn-primary"
+						data-dismiss="modal">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- write -->
+	<div id="modalWrite" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"
+					style="background: rgba(182, 251, 220, 0.31)">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h2 class="modal-title">
+						<strong>Write</strong>
+					</h2>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-addon"><span>일&nbsp;&nbsp;&nbsp;정</span></span>
+						<input id="writeTitle" type="text" class="form-control"
+							placeholder="schedule">
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>시작일</span></span> <input
+							id="writeStart" type="text" class="form-control datepicker">
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>종료일</span></span> <input
+							id="writeEnd" type="text" class="form-control datepicker">
+					</div>
+					<br>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="btnWriteSave" type="button" class="btn btn-primary"
+						data-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- update -->
+	<div id="modalUpdate" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"
+					style="background: rgba(215, 182, 251, 0.31)">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h2 class="modal-title">
+						<strong>Update</strong>
+					</h2>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-addon"><span>일&nbsp;&nbsp;&nbsp;정</span></span>
+						<input id="updateTitle" type="text" class="form-control">
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>시작일</span></span> <input
+							id="updateStart" type="text" class="form-control datepicker">
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><span>종료일</span></span> <input
+							id="updateEnd" type="text" class="form-control datepicker">
+					</div>
+					<br>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="btnUpdateSave" type="button" class="btn btn-primary"
+						data-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./js/calendar-ajax.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		$('.datepicker').datepicker({
+			dateFormat : "yy-mm-dd"
+		});
+		//업데이트 버튼을 누르면 뜰 모달창
+		$('#btnUpdate').on('click', function() {
+			// alert('update');
+			$("#modalShow").modal('hide');
+			var title = $('#showTitle').val();
+			var start = $('#showStart').val();
+			var end = $('#showEnd').val();
+			$('#updateTitle').val(title);
+			$('#updateStart').val(startDate);
+			$('#updateEnd').val(endDate);
+			$("#modalUpdate").modal('show');
+		});
+		$('#btnDelete').on('click', function(e) {
+			// alert('delete');
+			console.log('TID = ' + TID);
+			if (TID) {
+				remove(TID);
+			}
+		});
+		$('#btnWriteSave').on('click', function() {
+			/* 			alert('save');
+			 var title = $('#writeTitle').val();
+			 console.log('title = ' + title);
+			 write(); */
+			var schedule = {
+				title : $('#writeTitle').val(),
+				start : $('#writeStart').val(),
+				end : $('#writeEnd').val()
+			};
+			write(schedule);
+			// if(title !== "") {
+			// 	write(schedule);
+			// }
+		});
+		//업데이트 저장버튼을 누르면 DB에 전달
+		$('#btnUpdateSave').on('click', function() {
+			var schedule = {
+				id : TID,
+				title : $('#updateTitle').val(),
+				start : $('#updateStart').val(),
+				end : $('#updateEnd').val()
+			};
+			modify(schedule);
+			//console.log(title, start, end);
+			console.log(schedule);
+		});
+		//targetID
+		//var TID = 0;
+		$('#calendar').fullCalendar(
+				{
+					header : {
+						left : 'prev,next today',
+						center : 'title'
+					},
+					// defaultDate: '2017-05-12',
+					navLinks : true, // can click day/week names to navigate views
+					editable : true,
+					eventDrop : function(event, delta, revertFunc) {
+						// alert(event.title + " was dropped on " + event.start.format());
+						if (!confirm("Are you sure about this change?")) {
+							revertFunc();
+						}
+					},
+					eventResize : function(event, delta, revertFunc) {
+						// alert(event.title + " end is now " + event.end.format());
+						if (!confirm("is this okay?")) {
+							revertFunc();
+						}
+						var schedule = {
+							id : event.id,
+							title : event.title,
+							start : (new event.start).format("YYYY-MM-DD"),
+							end : (new event.end).subtract(1, 'days').format(
+									"YYYY-MM-DD")
+						};
+						modify(schedule);
+					},
+					eventLimit : true, // allow "more" link when too many events
+					eventClick : function(calEvent, jsEvent, view) {
+						// $(this).css('border-color', 'red');
+						TID = calEvent.id;
+						title = calEvent.title;
+						startDate = moment(calEvent.start).format(
+								"YYYY-MM-DD");
+						endDate = moment(calEvent.end).subtract(1, 'days')
+								.format("YYYY-MM-DD");
+						$('#modalShow').modal('show');
+						$('#showTitle').val(title);
+						$('#showStart').val(startDate);
+						$('#showEnd').val(endDate);
+					},
+					selectable : true,
+					selectHelper : true,
+					select : function(start, end) {
+						$('#modalWrite').modal('show');
+					}
+				});
+		var year = moment().format('YYYY');
+		var month = moment().format('MM');
+		// console.log(year, month);
+		select(year, month);
+	</script>
+</body>
+</html>
