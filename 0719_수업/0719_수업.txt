@@ -1,0 +1,64 @@
+0719수업내용
+-------------------------------------------------------
+#웹스퀘어-신청해서 교육받기
+#넥사크로
+#pdf파일 책 받음
+#demo-smallmart/package : mart
+#demo-smallmart
+#spring-5-aop
+#
+#
+-------------------------------------------------------
+#DI : Application 결합도를 낮추는 방법
+#AOP : 횡단관심사-충고(advice)를 구현
+	로그인여부체크, 로깅, 트랜잭션, 보안
+	Application과 횡단관심사?의 결합도를 낮춤
+	횡단관심사 기능을 구현한 것을 advice라고 한다.
+	advice는 Aspect가 무엇을 언제할지 정의하는 것이다.
+	클래스 안의 메소드를 Join Point라고 함.(충고를 먹일 수 있는 메소드들)
+	클래스 안의 특정메소드에만 충고를 먹일 때 '정의(pointcut)'를 해야한다. 
+	정의와 충고가 결합한 것을 Aspect(advice+pointcut)(=advisor)라고 한다.
+	그리고 Proxy(target+pointcut+advice)를 만들고 외부에서 보았을 때 프록시가 요청을 가로챈다
+	프록시로 변신하는 과정을 위빙이라한다.
+	
+	(공책에 그림)
+-------------------------------------------------------
+#이거는 0718에 했던 내용인데 집에서 다시 짜고 확인해보기
+package com.example.demo.statics;
+
+import java.lang.reflect.Method;
+
+import org.springframework.aop.support.DynamicMethodMatcherPointcut;
+import org.springframework.aop.support.StaticMethodMatcherPointcut;
+
+public class MyStaticMethodMatcherPointcut extends DynamicMethodMatcherPointcut
+//extends StaticMethodMatcherPointcut 
+{
+
+	/*
+	@Override
+	public boolean matches(Method method, Class<?> clazz) {
+		//어드바이스 적용 대산 선택 전략
+		//객체는 First.class 인스턴스 이어야 한다. 
+		//메소드 명은 "one"이어야 한다.
+//		return clazz == First.class && method.getName().equals("one");
+		
+		//실습
+		//대상 선택전략을 다음으로 교체하시오.
+		
+		//1. Second 클래스에서 메소드명이 one으로 시작하지 않는 메소드에만 어드바이스를 적용한다.
+//		return clazz == Second.class && !method.getName().equals("one");
+		
+		//2. 메소드명이 2으로 끝나는 메소드에만 어드바이스를 적용한다.
+//		return method.getName().endsWith("2");
+	}
+	*/
+
+	@Override
+	public boolean matches(Method method, Class<?> clazz, Object... args) {
+		//3. First, Second 클래스에서 파라미터를 받는 메소드에만 어드바이스를 적용한다.
+//		System.out.println("parameter length = " + method.getParameters().length);
+		return method.getParameters().length > 0;
+	}
+}
+-------------------------------------------------------
